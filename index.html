@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/cake.css">
 </head>
 <body>
-<div class="happy">
+<div class="happy">   <!-- TODO try to divide into components  -->
   <div class="balloon balloon1 balloon-anim1"></div>
   <div class="balloon balloon2 balloon-anim6"></div>
   <div class="balloon balloon3 balloon-anim3"></div>
@@ -129,7 +129,7 @@
   function checkAnswer3() {
     const answer3 = document.getElementById("answer3").value.toLowerCase();
     console.log(answer3);
-    if (answer3 === "Antverpy" || answer3 === "antverpy") {
+    if (answer3 === "Antverpy" || answer3 === "antverpy") { //TODO use to lowerCase
       document.getElementById("puzzle3").classList.add("hidden");
       document.getElementById("puzzle4").classList.remove("hidden");
     } else {
