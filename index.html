@@ -5,156 +5,32 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vše nej Milánku</title>
   <link rel="stylesheet" href="css/hb.css">
-  <link rel="stylesheet" href="css/cake.css">
 </head>
 <body>
-<div class="happy">   <!-- TODO try to divide into components  -->
-  <div class="balloon balloon1 balloon-anim1"></div>
-  <div class="balloon balloon2 balloon-anim6"></div>
-  <div class="balloon balloon3 balloon-anim3"></div>
-  <div class="balloon balloon4 balloon-anim4"></div>
-  <div class="balloon balloon5 balloon-anim5"></div>
-</div>
-<div class="birthday">
-  <div class="balloon balloon3 balloon-anim6"></div>
-  <div class="balloon balloon1 balloon-anim2"></div>
-  <div class="balloon balloon4 balloon-anim1"></div>
-  <div class="balloon balloon2 balloon-anim6"></div>
-  <div class="balloon balloon1 balloon-anim4"></div>
-  <div class="balloon balloon3 balloon-anim5"></div>
-  <div class="balloon balloon2 balloon-anim1"></div>
-  <div class="balloon balloon4 balloon-anim6"></div>
-</div>
-</div>
+<happy-birthday></happy-birthday>
+
 <div class="name">
   Milánku
 </div>
-<div class="content" id="puzzle-content">
+<canvas id="canvas" class="hidden"></canvas>
+<div class="content" id="task-content" >
   <h1>Všechno úplně nejvíc nejlepší k narozeninám!</h1>
   <p>Projdi všechny úkoly, abys získal narozeninové překvapení!</p>
 
-  <!-- Úkol 1 -->
-  <div id="puzzle1">
-    <div class="form-group">
-      <label><h2>Úkol 1: Kolik je 37 + 37?</h2></label>
-      <input type="number" id="answer1" placeholder="Napiš odpověď">
-      <button onclick="checkAnswer1()" class="submit-btn">Odeslat</button>
-      <p id="hint1" class="hidden" style="color: red;">Špatně, zkus to znovu!</p>
-    </div>
-  </div>
-
-  <!-- Úkol 2 -->
-  <div id="puzzle2" class="hidden">
-      <label><h2>Úkol 2: Vyplň následující kód:</h2> </label>
-        <pre>function nani() { return "<input type='text' id='answer2' placeholder='...'>"; }</pre>
-        <button onclick="checkAnswer2()" class="submit-btn">Odeslat</button>
-        <p id="hint2" class="hidden" style="color: red;">Špatně, zkus to znovu!</p>
-  </div>
-
-  <!-- Úkol 3 -->
-  <div id="puzzle3" class="hidden">
-    <div class="form-group">
-      <label><h2>Úkol 3: Kde proběhla první pusa s Nani? (Město)</h2></label>
-      <input type="text" id="answer3" placeholder="Napiš odpověď">
-      <button onclick="checkAnswer3()" class="submit-btn">Odeslat</button>
-      <p id="hint3" class="hidden" style="color: red;">Špatně, zkus to znovu!</p>
-    </div>
-  </div>
-
-  <!-- Úkol 4: Šifra -->
-  <div id="puzzle4" class="hidden">
-    <div class="form-group">
-      <label><h2>Úkol 4: Rozlušti šifru</h2></label>
-      <p><strong>Šifra:</strong> 84-105-108-97-110</p>
-      <input type="text" id="answer4" placeholder="Napiš odpověď">
-      <button onclick="checkAnswer4()" class="submit-btn">Odeslat</button>
-      <p id="hint4" class="hidden" style="color: red;">Špatně, zkus to znovu!</p>
-    </div>
-  </div>
-
-  <!-- Hlavolam 5 -->
-  <div id="puzzle5" class="hidden">
-    <div class="form-group">
-    <label> <h2>Hlavolam 5: Najdi další číslo v řadě</h2> </label>
-    <p><strong>Řada:</strong> 0, 1, 1, 2, 3, 5, 8, ?</p>
-    <input type="number" id="answer5" placeholder="Napiš odpověď">
-    <button onclick="checkAnswer5()">Odeslat</button>
-    <p id="hint5" class="hidden" style="color: red;">Špatně, zkus to znovu!</p>
-  </div>
-  </div>
-
-  <!-- Gratulace -->
-  <div id="congratulations" class="hidden">
-    <div class="form-group">
-      <label><h2>Gratuluji!</h2></label>
-      <p>Úspěšně jsi vyřešil všechny úkoly! Tady je tvé narozeninové překvapení:</p>
-      <img src="https://via.placeholder.com/300x200.png?text=Všechno+nejlepší,+Milane!" alt="Překvapení">
-    </div>
-  </div>
+  <!-- Úkoly -->
+  <task-manager>
+  </task-manager>
+  <m-cake></m-cake>
 </div>
 
-<div class="cake">
-  <div class="plate"></div>
-  <div class="layer layer-1"></div>
-  <div class="layer layer-2"></div>
-  <div class="layer layer-3"></div>
-  <div class="layer layer-4"></div>
-  <div class="layer layer-top"></div>
-  <div class="layer layer-top-cream1"></div>
-  <div class="layer layer-top-cream2"></div>
-  <div class="layer candle"></div>
-
-</div>
-<script> //TODO make class for this and link to file
-  function checkAnswer1() {
-    const answer1 = document.getElementById("answer1").value;
-    if (answer1 == 74) {
-      document.getElementById("puzzle1").classList.add("hidden");
-      document.getElementById("puzzle2").classList.remove("hidden");
-    } else {
-      document.getElementById("hint1").classList.remove("hidden");
-    }
-  }
-
-  function checkAnswer2() { //TODO add pop up with hint after 3 tries
-    const answer2 = document.getElementById("answer2").value.toLowerCase();
-    if (answer2 === "láska" || answer2 === "love") {
-      document.getElementById("puzzle2").classList.add("hidden");
-      document.getElementById("puzzle3").classList.remove("hidden");
-    } else {
-      document.getElementById("hint2").classList.remove("hidden");
-    }
-  }
-
-  function checkAnswer3() {
-    const answer3 = document.getElementById("answer3").value.toLowerCase();
-    console.log(answer3);
-    if (answer3 === "Antverpy" || answer3 === "antverpy") { //TODO use to lowerCase
-      document.getElementById("puzzle3").classList.add("hidden");
-      document.getElementById("puzzle4").classList.remove("hidden");
-    } else {
-      document.getElementById("hint3").classList.remove("hidden");
-    }
-  }
-
-  function checkAnswer4() {
-    const answer4 = document.getElementById("answer4").value.toLowerCase();
-    if (answer4 === "milan") {
-      document.getElementById("puzzle4").classList.add("hidden");
-      document.getElementById("puzzle5").classList.remove("hidden");
-    } else {
-      document.getElementById("hint4").classList.remove("hidden");
-    }
-  }
-  function checkAnswer5() {
-    const answer5 = document.getElementById("answer5").value;
-    if (answer5 == 13) {
-      document.getElementById("puzzle5").classList.add("hidden");
-      document.getElementById("congratulations").classList.remove("hidden");
-    } else {
-      document.getElementById("hint5").classList.remove("hidden");
-    }
-  }
-</script>
+<footer>
+  <p>Author: Nani<br>
+    Tato stránka vznikla jako dárek a výukový materiál pro osvěžení syrového js,html a css.</p>
+</footer>
+<script type="module" src="components/hb.js"></script>
+<script type="module" src="components/cake.js"></script>
+<script type="module" src="components/task-manager.js"></script>
+<script type="module" src="components/snake.js"></script>
+<script type="module" src="components/firework.js"></script>
 </body>
 </html>
