@@ -38,21 +38,38 @@ class SnakeGame extends HTMLElement {
         .hidden {
           display: none;
         }
-        .submit-btn {
-          margin-top: 1%;
-          padding: 10px;
-          font-size: 16px;
-          font-weight: bold;
+        .controls {
+          display: flex;
+          justify-content: center;
+          margin-top: 10px;
+        }
+        .control-btn {
+          width: 50px;
+          height: 50px;
+          margin: 5px;
+          background-color: #4c99c6;
           color: white;
-          background-color: rgb(76, 153, 198);
+          font-size: 18px;
+          font-weight: bold;
           border: none;
           border-radius: 8px;
           cursor: pointer;
           transition: background-color 0.3s;
-}
+        }
+        .control-btn:active {
+          background-color: #3b7ba0;
+        }
       </style>
       <p>Pomoz hadovi růst! Sbírej červené jídlo, vyhýbej se překážkám a sněz zlatý dort, aby hra skončila. A pozor na neviditelnou zeď vpravo :)) (1080px)</p>
       <div class="game-container" id="game-container"></div>
+      <div class="controls">
+        <button class="control-btn" id="up">↑</button>
+      </div>
+      <div class="controls">
+        <button class="control-btn" id="left">←</button>
+        <button class="control-btn" id="down">↓</button>
+        <button class="control-btn" id="right">→</button>
+      </div>
       <div id="game-over" class="hidden">
         <h2>Gratuluji!</h2>
         <p>Snědl jsi dort a dokončil jsi všechny úkoly!</p>
@@ -73,6 +90,13 @@ class SnakeGame extends HTMLElement {
 
     this.continueButton.addEventListener("click", this.goToCongratulations.bind(this));
     window.addEventListener("keydown", this.changeDirection.bind(this));
+
+    // Přidání událostí pro tlačítka
+    this.shadowRoot.getElementById("up").addEventListener("click", () => this.setDirection(0, -1));
+    this.shadowRoot.getElementById("down").addEventListener("click", () => this.setDirection(0, 1));
+    this.shadowRoot.getElementById("left").addEventListener("click", () => this.setDirection(-1, 0));
+    this.shadowRoot.getElementById("right").addEventListener("click", () => this.setDirection(1, 0));
+
     this.startGame();
   }
 
@@ -157,17 +181,23 @@ class SnakeGame extends HTMLElement {
   changeDirection(event) {
     switch (event.key) {
       case "ArrowUp":
-        if (this.direction.y === 0) this.direction = { x: 0, y: -1 };
+        this.setDirection(0, -1);
         break;
       case "ArrowDown":
-        if (this.direction.y === 0) this.direction = { x: 0, y: 1 };
+        this.setDirection(0, 1);
         break;
       case "ArrowLeft":
-        if (this.direction.x === 0) this.direction = { x: -1, y: 0 };
+        this.setDirection(-1, 0);
         break;
       case "ArrowRight":
-        if (this.direction.x === 0) this.direction = { x: 1, y: 0 };
+        this.setDirection(1, 0);
         break;
+    }
+  }
+
+  setDirection(x, y) {
+    if ((x !== 0 && this.direction.x === 0) || (y !== 0 && this.direction.y === 0)) {
+      this.direction = { x, y };
     }
   }
 
@@ -190,7 +220,7 @@ class SnakeGame extends HTMLElement {
   }
 
   goToCongratulations() {
-    alert("Miluji Tě! 🥰 Napiš mi na whatsApp tajný kód: !BUBLINKY!");
+    alert("Miluji Tě! 🥰 Napiš mi na WhatsApp tajný kód: !BUBLINKY!");
     const canvas = document.querySelector("canvas");
     canvas.classList.remove("hidden");
     initCanvas();
