@@ -27,16 +27,36 @@ class SnakeGame extends HTMLElement {
           border-radius: 7px;
         }
         .food {
-          background-color: red;
+         color: red;
+         background-image: url('./images/heart.png');
+         background-size: cover;
         }
         .special {
+         background-image: url('./images/birthday-cake.png');
           background-color: gold;
+           background-size: cover;
         }
         .obstacle {
           background-color: black;
         }
         .hidden {
           display: none;
+        }
+        .submit-btn {/*wtf nefunguje z hb.css,tak je to tady ted*/
+          margin-top: 1%;
+          padding: 10px;
+          font-size: 16px;
+          font-weight: bold;
+          color: white;
+          background-color: rgb(76, 153, 198);
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
         }
         .controls {
           display: flex;
@@ -60,7 +80,8 @@ class SnakeGame extends HTMLElement {
           background-color: #3b7ba0;
         }
       </style>
-      <p>Pomoz hadovi růst! Sbírej červené jídlo, vyhýbej se překážkám a sněz zlatý dort, aby hra skončila. A pozor na neviditelnou zeď vpravo :)) (1080px)</p>
+      <div id="for-hidden">
+      <p id="info">Pomoz hadovi růst! Sbírej červené jídlo, vyhýbej se překážkám a sněz zlatý dort, aby hra skončila.</p>
       <div class="game-container" id="game-container"></div>
       <div class="controls">
         <button class="control-btn" id="up">↑</button>
@@ -70,23 +91,26 @@ class SnakeGame extends HTMLElement {
         <button class="control-btn" id="down">↓</button>
         <button class="control-btn" id="right">→</button>
       </div>
+      </div>
       <div id="game-over" class="hidden">
         <h2>Gratuluji!</h2>
         <p>Snědl jsi dort a dokončil jsi všechny úkoly!</p>
-        <button class="submit-btn" id="continue-button">Yvzvednout dárek</button>
+        <button class="submit-btn" id="continue-button">Vyzvednout dárek</button>
       </div>
     `;
 
     this.gameContainer = this.shadowRoot.getElementById("game-container");
     this.gameOverScreen = this.shadowRoot.getElementById("game-over");
-    this.continueButton = this.shadowRoot.getElementById("continue-button");
+   this.continueButton = this.shadowRoot.getElementById("continue-button");
 
     this.snake = [{ x: 200, y: 200 }];
     this.direction = { x: 0, y: 0 };
     this.food = { x: this.randomXPosition(), y: this.randomPosition() };
     this.specialFood = { x: this.randomXPosition(), y: this.randomPosition() };
-    this.obstacles = this.generateObstacles(12);
     this.gameInterval = null;
+
+    this.updateObstacleCount(); // Dynamicky nastav počet překážek
+    window.addEventListener("resize", this.updateObstacleCount.bind(this)); // Sleduj změny velikosti okna
 
     this.continueButton.addEventListener("click", this.goToCongratulations.bind(this));
     window.addEventListener("keydown", this.changeDirection.bind(this));
@@ -100,15 +124,15 @@ class SnakeGame extends HTMLElement {
     this.startGame();
   }
 
- randomPosition() {
-  const containerHeight = this.gameContainer.offsetHeight; // Výška herního pole
-  return Math.floor(Math.random() * (containerHeight / 20)) * 20;
-}
+  randomPosition() {
+    const containerHeight = this.gameContainer.offsetHeight;
+    return Math.floor(Math.random() * (containerHeight / 20)) * 20;
+  }
 
-randomXPosition() {
-  const containerWidth = this.gameContainer.offsetWidth; // Šířka herního pole
-  return Math.floor(Math.random() * (containerWidth / 20)) * 20;
-}
+  randomXPosition() {
+    const containerWidth = this.gameContainer.offsetWidth;
+    return Math.floor(Math.random() * (containerWidth / 20)) * 20;
+  }
 
   generateObstacles(count) {
     const obstacles = [];
@@ -116,6 +140,19 @@ randomXPosition() {
       obstacles.push({ x: this.randomXPosition(), y: this.randomPosition() });
     }
     return obstacles;
+  }
+
+  updateObstacleCount() {
+    const width = this.gameContainer.offsetWidth;
+    let count;
+    if (width < 500) {
+      count = 5; // Pro menší zařízení
+    } else if (width < 1080) {
+      count = 10; // Pro střední zařízení
+    } else {
+      count = 15; // Pro větší zařízení
+    }
+    this.obstacles = this.generateObstacles(count); // Aktualizuj překážky
   }
 
   createDiv(className, x, y) {
@@ -158,19 +195,22 @@ randomXPosition() {
       clearInterval(this.gameInterval);
       this.gameContainer.classList.add("hidden");
       this.gameOverScreen.classList.remove("hidden");
+      this.shadowRoot.getElementById("for-hidden").classList.add("hidden");
+      return;
     }
 
     if (this.obstacles.some((obstacle) => obstacle.x === newHead.x && obstacle.y === newHead.y)) {
       alert("Narazil jsi do překážky! Game Over.");
       clearInterval(this.gameInterval);
       this.resetGame();
+      return;
     }
 
     if (
       newHead.x < 0 ||
       newHead.y < 0 ||
-      newHead.x >= 1080 ||
-      newHead.y >= 900 ||
+      newHead.x >= this.gameContainer.offsetWidth ||
+      newHead.y >= this.gameContainer.offsetHeight ||
       this.snake.some((segment, index) => index !== 0 && segment.x === newHead.x && segment.y === newHead.y)
     ) {
       alert("Game Over! Narazil jsi.");
