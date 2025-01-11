@@ -100,14 +100,15 @@ class SnakeGame extends HTMLElement {
     this.startGame();
   }
 
-  randomPosition() {
-    return Math.floor(Math.random() * 20) * 20;
-  }
-  randomXPosition() {
-    const windowWidth = window.innerWidth;
-    const max = windowWidth >= 1080 ? 930 : -150;
-    return Math.floor(Math.random() * max);
-  }
+ randomPosition() {
+  const containerHeight = this.gameContainer.offsetHeight; // Výška herního pole
+  return Math.floor(Math.random() * (containerHeight / 20)) * 20;
+}
+
+randomXPosition() {
+  const containerWidth = this.gameContainer.offsetWidth; // Šířka herního pole
+  return Math.floor(Math.random() * (containerWidth / 20)) * 20;
+}
 
   generateObstacles(count) {
     const obstacles = [];
