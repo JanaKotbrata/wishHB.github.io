@@ -1,5 +1,5 @@
-export const taskList = [ //FIXME do it hidden
- /* {
+export const taskList = [
+  {
     id: "task1",
     class: "form-group",
     h2: "Úkol 1: Kolik je 37 + 37?",
@@ -30,15 +30,22 @@ export const taskList = [ //FIXME do it hidden
   {
     id: "task5",
     class: "form-group",
-    h2: "Úkol 5: Najdi další číslo v řadě 2, 4, 6, 10, 16 , 21, ?, 58, 95,...",
+    h2: "Úkol 5: V kolika cizích zemích jsme byli rok 2024?",
     inputId: "answer5",
-    correctAnswer: "37",
-  },*/
+    correctAnswer: "4",
+  },
   {
     id: "task6",
     class: "form-group",
-    h2: "Úkol 6: Kolik cizích zemí jsme spolu navštívili?",
+    h2: "Úkol 6: Najdi další číslo v řadě 2, 4, 6, 10, 16 , 21, ?, 58, 95,...",
     inputId: "answer6",
+    correctAnswer: "37",
+  },
+  {
+    id: "task7",
+    class: "form-group",
+    h2: "Úkol 7: Kolik cizích zemí jsme spolu navštívili?",
+    inputId: "answer7",
     correctAnswer: "7",
   },
 ];
